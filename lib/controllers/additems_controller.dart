@@ -21,8 +21,8 @@ class AddController extends GetxController {
   final db = FirebaseFirestore.instance;
   final formKey = GlobalKey<FormState>();
   String? name;
-  String? Latitude;
-  String? Longitude;
+  String? latitude;
+  String? longitude;
   LocationData? locationData;
 
   final rng = Random();
@@ -31,10 +31,10 @@ class AddController extends GetxController {
   final contrllermap = Get.put(MapController());
 
   pickerCam() async {
-    File? pickedFile =
-        (await ImagePicker().pickImage(source: ImageSource.camera)) as File?;
+    final pickedFile =
+        (await ImagePicker().pickImage(source: ImageSource.camera));
     if (pickedFile != null) {
-      image = pickedFile;
+      image = File(pickedFile.path);
     }
   }
 
@@ -52,7 +52,7 @@ class AddController extends GetxController {
     
     final Reference ref =
         FirebaseStorage.instance.ref().child(fullImageName + ok);
-    final UploadTask task = ref.putFile(image!);
+    ref.putFile(image!);
 
     var part1 =
         'https://firebasestorage.googleapis.com/v0/b/expressorder-afeda.appspot.com/o/imageitem';
@@ -60,15 +60,13 @@ class AddController extends GetxController {
     var fullPathImage = part1 + ok;
 
     locationData = await contrllermap.getLocation();
-    Longitude = locationData!.longitude.toString();
-    Latitude = locationData!.latitude.toString();
-        print("TEEEEEST");
-    print(locationData);
+    longitude = locationData!.longitude.toString();
+    latitude = locationData!.latitude.toString();
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
       DocumentReference ref = await db
           .collection('colitems')
-          .add({'name': '$name', 'item': '$item', 'image': fullPathImage, 'longitude': '$Longitude', 'latitude': '$Latitude'});
+          .add({'name': '$name', 'item': '$item', 'image': fullPathImage, 'longitude': '$longitude', 'latitude': '$latitude'});
       id = ref.id;
       Get.back();
     }

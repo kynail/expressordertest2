@@ -28,11 +28,6 @@ class MapController extends GetxController {
     }
 
     locationData = await location.getLocation();
-    print("cacaaaaaa");
-    print(locationData);
-    // if (locationData == null) {
-    //   return "Localisation non disponible";
-    // }
     return (locationData);
   }
 }

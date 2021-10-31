@@ -1,5 +1,4 @@
 import 'package:express_order/controllers/additems_controller.dart';
-import 'package:express_order/controllers/map_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -28,7 +27,6 @@ Widget divider() {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(AddController());
-    final contrllermap = Get.put(MapController());
     CommonThings.size = MediaQuery.of(context).size;
 
     return Scaffold(
